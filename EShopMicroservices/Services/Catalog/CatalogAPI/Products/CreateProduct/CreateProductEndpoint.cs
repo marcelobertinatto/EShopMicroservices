@@ -29,8 +29,8 @@ namespace CatalogAPI.Products.CreateProduct
                 .Produces<CreateProductResponse>(StatusCodes.Status201Created)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .WithSummary("Create Product")
-                .WithDescription("Create Product")
-                .WithOpenApi();
+                .WithDescription("Create Product");
+            //.WithOpenApi();
         }
     }
 }

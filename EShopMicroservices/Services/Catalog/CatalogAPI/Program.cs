@@ -1,15 +1,10 @@
-
-
-using Carter.OpenApi;
-using Microsoft.OpenApi.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Add services to the container
 
 //swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
 
 //builder.Services.AddSwaggerGen(options =>
 //{
@@ -18,18 +13,6 @@ builder.Services.AddSwaggerGen();
 //        Description = "Carter Sample API",
 //        Version = "v1",
 //        Title = "Microservices API"
-//    });
-
-//    options.DocInclusionPredicate((s, description) =>
-//    {
-//        foreach (var metaData in description.ActionDescriptor.EndpointMetadata)
-//        {
-//            if (metaData is IIncludeOpenApi)
-//            {
-//                return true;
-//            }
-//        }
-//        return false;
 //    });
 //});
 
@@ -56,11 +39,13 @@ var app = builder.Build();
 app.MapCarter();
 
 //swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EshopMicroservices v1");
-});
+//app.UseSwagger();
+//app.UseSwaggerUI(c =>
+//{
+//    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EshopMicroservices v1");
+//});
+
+//app.UseHttpsRedirection();
 
 
 app.Run();

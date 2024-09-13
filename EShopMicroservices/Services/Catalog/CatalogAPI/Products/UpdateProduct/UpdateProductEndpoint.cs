@@ -1,11 +1,12 @@
-﻿
-using CatalogAPI.Products.CreateProduct;
+﻿using CatalogAPI.Products.DeleteProduct;
 
 namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductRequest(Guid Id, string Name, List<string> Category,
         string Description, string ImageFile, decimal Price);
-    public record UpdateProductResponse(bool IsOk);
+
+    public record UpdateProductResponse(bool IsUpdated);
+
     public class UpdateProductEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
@@ -18,8 +19,12 @@ namespace CatalogAPI.Products.UpdateProduct
 
                 var response = result.Adapt<UpdateProductResponse>();
 
-                return Results.Ok(response.IsOk);
-            });
+                return Results.Ok(response.IsUpdated);
+            }).WithName("UpdateProduct")
+            .Produces<UpdateProductResponse>(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Update Product")
+            .WithDescription("Update Product");
         }
     }
 }

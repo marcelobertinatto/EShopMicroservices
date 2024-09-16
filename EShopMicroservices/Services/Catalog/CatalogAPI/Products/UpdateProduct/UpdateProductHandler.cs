@@ -4,7 +4,21 @@ namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductCommand(Guid Id,string Name, List<string> Category,
         string Description, string ImageFile, decimal Price) : ICommand<UpdateProductResult>;
+
     public record UpdateProductResult(bool IsUpdated);
+
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+    {
+        public UpdateProductCommandValidator()
+        {
+            RuleFor(cmd => cmd.Id).NotEmpty().WithMessage("Product Id is required.");
+            RuleFor(cmd => cmd.Name)
+                .NotEmpty().WithMessage("Name is required.")
+                .Length(2, 150).WithMessage("Name must be between 2 and 150 characteres.");
+            RuleFor(cmd => cmd.Price).GreaterThan(0).WithMessage("Price must be greater than 0.");
+        }
+    }
+
     internal class UpdateProductCommandHandler(IDocumentSession session,
         ILogger<UpdateProductCommandHandler> logger)
         : ICommandHandler<UpdateProductCommand, UpdateProductResult>
@@ -20,7 +34,7 @@ namespace CatalogAPI.Products.UpdateProduct
 
                 if (product == null)
                 {
-                    throw new ProductNotFoundException();
+                    throw new ProductNotFoundException(command.Id);
                 }
 
                 product.Name = command.Name;
@@ -36,7 +50,7 @@ namespace CatalogAPI.Products.UpdateProduct
             }
             catch (Exception ex)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
         }
     }

@@ -1,3 +1,6 @@
+using BuildingBlocks.Behaviors;
+using BuildingBlocks.Exceptions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Add services to the container
@@ -16,14 +19,20 @@ var builder = WebApplication.CreateBuilder(args);
 //    });
 //});
 
-//Carter Lib
-builder.Services.AddCarter();
+var assembly = typeof(Program).Assembly;
 
 //MediatR lib
 builder.Services.AddMediatR(config =>
 {
-    config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    config.RegisterServicesFromAssembly(assembly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
+
+//FluentValidation
+builder.Services.AddValidatorsFromAssembly(assembly);
+
+//Carter Lib
+builder.Services.AddCarter();
 
 //Marten Lib
 builder.Services.AddMarten(opts =>
@@ -34,6 +43,7 @@ builder.Services.AddMarten(opts =>
 var app = builder.Build();
 
 //Configure the HTTP request pipeline.
+app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
 //Carter
 app.MapCarter();

@@ -3,6 +3,14 @@
 	public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
 	public record DeleteProductResult(bool IsDeleted);
 
+    public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+    {
+        public DeleteProductCommandValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty().WithMessage("Product Id is required.");
+        }
+    }
+
     internal class DeleteProductCommandHandler(IDocumentSession session,
         ILogger<DeleteProductCommandHandler> logger)
         : ICommandHandler<DeleteProductCommand, DeleteProductResult>
@@ -18,7 +26,7 @@
 
                 if (product == null)
                 {
-                    throw new ProductNotFoundException();
+                    throw new ProductNotFoundException(command.Id);
                 }
 
                 session.Delete(product);
@@ -28,7 +36,7 @@
             }
             catch (Exception ex)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
         }
     }

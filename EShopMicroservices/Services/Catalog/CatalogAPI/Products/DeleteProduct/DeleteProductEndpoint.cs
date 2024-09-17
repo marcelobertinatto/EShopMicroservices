@@ -1,4 +1,6 @@
-﻿namespace CatalogAPI.Products.DeleteProduct
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace CatalogAPI.Products.DeleteProduct
 {
 	public record DeleteProductRequest(Guid Id);
 
@@ -9,11 +11,11 @@
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/products/delete", async (DeleteProductRequest request, ISender sender) =>
+            app.MapDelete("/products", async ([FromBody]DeleteProductRequest request, ISender sender) =>
             {
-                var comand = request.Adapt<DeleteProductCommand>();
+                var command = request.Adapt<DeleteProductCommand>();
 
-                var result = await sender.Send(comand);
+                var result = await sender.Send(command);
 
                 var response = result.Adapt<DeleteProductResponse>();
 

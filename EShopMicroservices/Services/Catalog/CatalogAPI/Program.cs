@@ -1,4 +1,5 @@
-
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,16 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+//initial catalog for having initial data set up
+if (builder.Environment.IsDevelopment())
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+
+//custom exception handler for any 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+//health check
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database"));
 
 var app = builder.Build();
 
@@ -65,5 +75,11 @@ app.UseExceptionHandler(opt => { });
 
 //app.UseHttpsRedirection();
 
+//health checks
+app.UseHealthChecks("/health", 
+    new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();

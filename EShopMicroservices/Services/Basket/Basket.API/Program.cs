@@ -7,6 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 //Repository
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
+//Scrutor lib to mapping DI
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+
+
+//Stack Exchange Redis Cache
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString("Redis");
+    //opt.InstanceName = "Basket";
+});
+
+
 //add Carter
 builder.Services.AddCarter();
 

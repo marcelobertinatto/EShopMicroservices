@@ -52,7 +52,7 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 //health check
 builder.Services.AddHealthChecks()
-    .AddNpgSql(builder.Configuration.GetConnectionString("Database"));
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
 var app = builder.Build();
 

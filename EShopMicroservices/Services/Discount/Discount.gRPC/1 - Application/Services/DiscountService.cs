@@ -43,7 +43,7 @@ namespace Discount.gRPC._1___Application.Services
 
             if (existingCoupon == null)
             {
-                discountContext.Add(coupon);
+                discountContext.Coupons.Add(coupon);
                 await discountContext.SaveChangesAsync();
 
                 logger.LogInformation("Discount is created for ProductName: {productName}", coupon.ProductName);
@@ -57,7 +57,7 @@ namespace Discount.gRPC._1___Application.Services
         {
             var coupon = request.Coupon.Adapt<Coupon>();
 
-            if (coupon == null || request.Coupon.Id == 0)
+            if (coupon is null || request.Coupon.Id == 0)
             {
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid request object"));
             }
@@ -67,7 +67,8 @@ namespace Discount.gRPC._1___Application.Services
 
             if (existingCoupon != null)
             {
-                discountContext.Coupons.Update(coupon);
+                discountContext.ChangeTracker.Clear();
+                discountContext.Update(coupon);
                 await discountContext.SaveChangesAsync();
 
                 logger.LogInformation("Discount is updated for ProductName: {productName}", coupon.ProductName);
@@ -77,9 +78,24 @@ namespace Discount.gRPC._1___Application.Services
             return couponModel;
         }
 
-        public override Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
+        public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
         {
-            return base.DeleteDiscount(request, context);
+
+            var coupon = await discountContext.Coupons
+               .FirstOrDefaultAsync(x => x.ProductName == request.ProductName);
+
+            if (coupon is null)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, $"Discount with ProductName={request.ProductName} is not found."));
+            }
+
+            discountContext.ChangeTracker.Clear();
+            discountContext.Remove(coupon);
+            await discountContext.SaveChangesAsync();
+
+            logger.LogInformation("Discount is deleted for ProductName: {productName}", coupon.ProductName);
+                        
+            return new DeleteDiscountResponse {  Success = true };
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Order.Application.Data;
 
 namespace Order.Infra
 {
@@ -12,9 +13,16 @@ namespace Order.Infra
             var connectionString = configuration.GetConnectionString("Database");
 
             //Add services to the container
-            //services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddScoped<ISaveChangesInterceptor, AudityEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
-            //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>((sp, opt) => 
+            {
+                opt.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+                opt.UseSqlServer(connectionString);
+            });
+
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
             return services;
         }

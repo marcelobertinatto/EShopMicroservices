@@ -1,3 +1,5 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
 version: '3.4'
 
 services:
@@ -9,6 +11,10 @@ services:
 
   distributedcache:
    image: redis
+
+  orderdb:
+   image: mcr.microsoft.com/mssql/server
+
 
   catalogapi:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -28,10 +34,9 @@ services:
       context: .
       dockerfile: Services/Discount/Discount.gRPC/Dockerfile
 
+
+
 volumes:
-  postgres_catalog:
-  postgres_basket:
-
-  
-
+ postgres_catalog:
+ postgres_basket:
 

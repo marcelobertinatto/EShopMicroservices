@@ -4,7 +4,7 @@ namespace Order.Infra.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Domain.Models.Order>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Domain.Models.Order> builder)
+        public void Configure(EntityTypeBuilder<Domain.Models.Order> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id)
@@ -16,9 +16,9 @@ namespace Order.Infra.Configurations
                 .HasForeignKey(x => x.CustomerId)
                 .IsRequired();
 
-            builder.HasOne(x => x.OrderItems)
+            builder.HasMany(x => x.OrderItems)
                 .WithOne()
-                .HasForeignKey<OrderItem>(x => x.OrderId);
+                .HasForeignKey(x => x.OrderId);
 
             builder.ComplexProperty(x => x.OrderName, nameBuilder =>
             {

@@ -4,12 +4,12 @@ using Order.Application.Orders.Commands.DeleteOrder;
 namespace Order.API.Endpoints
 {
     //public record DeleteOrderRequest(Guid Id);
-    public record DeleteOrderResponse(bool isSuccess);
+    public record DeleteOrderResponse(bool IsSuccess);
     public class DeleteOrder : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/orders/{ id}", async (Guid Id, ISender sender) =>
+            app.MapDelete("/orders/{Id}", async (Guid Id, ISender sender) =>
             {
                 var result = await sender.Send(new DeleteOrderCommand(Id));
 

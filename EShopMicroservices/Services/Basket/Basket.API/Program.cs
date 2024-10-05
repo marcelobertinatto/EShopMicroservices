@@ -1,4 +1,5 @@
-﻿using Discount.Grpc;
+﻿using BuildingBlocks.Messaging.MassTransit;
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +54,9 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     return handler;
 });
 
+//MassTransit
+builder.Services.AddMessageBroker(builder.Configuration);
+
 //Cross-Cutting Services
 //custom exception handler for any 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
@@ -61,8 +65,6 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
-
-
 
 
 var app = builder.Build();

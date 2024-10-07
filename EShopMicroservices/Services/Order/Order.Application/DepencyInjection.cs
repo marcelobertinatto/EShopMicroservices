@@ -2,6 +2,7 @@
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using System.Reflection;
 
 namespace Order.Application
@@ -17,6 +18,8 @@ namespace Order.Application
                 config.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 config.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
+
+            services.AddFeatureManagement();
 
             //RabbitMQ
             services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());

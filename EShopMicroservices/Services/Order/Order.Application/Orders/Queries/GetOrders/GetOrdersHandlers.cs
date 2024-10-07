@@ -21,7 +21,7 @@ namespace Order.Application.Orders.Queries.GetOrders
                 .ToListAsync(cancellationToken);    
 
             return new GetOrdersResult(new PaginatedResult<OrderDto>(
-                pageIndex,pageSize,totalCount,orders.ToOrderDtoList()
+                pageIndex,pageSize,totalCount,  orders.ToOrderDtoList()
             ));
         }
     }

@@ -15,9 +15,7 @@ namespace Order.Application.Orders.EventHandlers
             {
                 var orderCreatedIntegrationEvent = domainEvent.Order.ToOrderDto();
                 await publishEndpoint.Publish(orderCreatedIntegrationEvent,cancellationToken);
-            }
-
-            
+            }            
         }
     }
 }

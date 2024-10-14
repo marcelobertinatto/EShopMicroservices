@@ -9,14 +9,14 @@
     }
   },
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "applicationUrl": "http://localhost:5001",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true
-    },
+    // "http": {
+    //   "commandName": "Project",
+    //   "applicationUrl": "http://localhost:5001",
+    //   "environmentVariables": {
+    //     "ASPNETCORE_ENVIRONMENT": "Development"
+    //   },
+    //   "dotnetRunMessages": true
+    // },
     "https": {
       "commandName": "Project",
       "launchUrl": "basket",

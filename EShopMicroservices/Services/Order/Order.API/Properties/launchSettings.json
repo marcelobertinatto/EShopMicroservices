@@ -9,15 +9,15 @@
     }
   },
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5003",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true
-    },
+    // "http": {
+    //   "commandName": "Project",
+    //   "launchBrowser": true,
+    //   "applicationUrl": "http://localhost:5003",
+    //   "environmentVariables": {
+    //     "ASPNETCORE_ENVIRONMENT": "Development"
+    //   },
+    //   "dotnetRunMessages": true
+    // },
     "https": {
       "commandName": "Project",
       "launchBrowser": true,

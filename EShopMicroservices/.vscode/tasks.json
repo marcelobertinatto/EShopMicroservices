@@ -46,12 +46,12 @@
             "dockerBuild": {
                 "tag": "eshopmicroservices:dev",
                 "target": "base",
-                "dockerfile": "${workspaceFolder}/Services/Catalog/CatalogAPI/Dockerfile",
+                "dockerfile": "${workspaceFolder}/ApiGateways/YarpApiGateway/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Services/Catalog/CatalogAPI/CatalogAPI.csproj"
+                "appProject": "${workspaceFolder}/ApiGateways/YarpApiGateway/YarpApiGateway.csproj"
             }
         },
         {
@@ -62,7 +62,7 @@
             ],
             "dockerBuild": {
                 "tag": "eshopmicroservices:latest",
-                "dockerfile": "${workspaceFolder}/Services/Catalog/CatalogAPI/Dockerfile",
+                "dockerfile": "${workspaceFolder}/ApiGateways/YarpApiGateway/Dockerfile",
                 "context": "${workspaceFolder}",
                 "platform": {
                     "os": "linux",
@@ -71,7 +71,7 @@
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Services/Catalog/CatalogAPI/CatalogAPI.csproj"
+                "appProject": "${workspaceFolder}/ApiGateways/YarpApiGateway/YarpApiGateway.csproj"
             }
         },
         {
@@ -82,7 +82,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Services/Catalog/CatalogAPI/CatalogAPI.csproj",
+                "appProject": "${workspaceFolder}/ApiGateways/YarpApiGateway/YarpApiGateway.csproj",
                 "enableDebugging": true
             }
         },
@@ -94,7 +94,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Services/Catalog/CatalogAPI/CatalogAPI.csproj"
+                "appProject": "${workspaceFolder}/ApiGateways/YarpApiGateway/YarpApiGateway.csproj"
             }
         }
     ]

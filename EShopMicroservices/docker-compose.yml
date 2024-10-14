@@ -1,5 +1,3 @@
-# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
-
 version: '3.4'
 
 services:
@@ -19,32 +17,42 @@ services:
    image: rabbitmq:management
 
 
-  catalogapi:
+  catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/CatalogAPI/Dockerfile
+    container_name: catalog.api
 
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
+    container_name: basket.api
+    
 
   discount.grpc:
     image: ${DOCKER_REGISTRY-}discountgrpc
     build:
       context: .
       dockerfile: Services/Discount/Discount.gRPC/Dockerfile
+    container_name: discount.grpc
 
   order.api:
     image: ${DOCKER_REGISTRY-}orderapi
     build:
       context: .
       dockerfile: Services/Order/Order.API/Dockerfile
+    container_name: order.api
+  
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+    container_name: yarpapigateway
 
 volumes:
  postgres_catalog:
  postgres_basket:
-
-

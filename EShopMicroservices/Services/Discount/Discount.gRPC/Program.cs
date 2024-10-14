@@ -1,6 +1,5 @@
 using Discount.gRPC._1___Application.Services;
 using Discount.gRPC._3___Infra;
-using Discount.Grpc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -3,15 +3,15 @@
 version: '3.4'
 
 services:
-  catalogapi:
-    image: catalogapi
+  yarpapigateway:
+    image: yarpapigateway
     build:
       context: .
-      dockerfile: Services/Catalog/CatalogAPI/Dockerfile
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
       args:
         - configuration=Debug
     ports:
-      - 6000:6000
+      - 8080:8080
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
